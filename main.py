@@ -53,7 +53,7 @@ def time_search(sort_fn, mylist):
     return (time.time() - start) * 1000
     ###
 
-def compare_sort(sizes=[100, 200, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000]):
+def compare_sort(sizes=[100, 150, 200, 250, 300, 350, 400, 450, 500, 750]):
     """
     Compare the running time of different sorting algorithms.
 
@@ -65,7 +65,7 @@ def compare_sort(sizes=[100, 200, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25
     """
     ### TODO - sorting algorithms for comparison
     def qsort_fixed_pivot(a):
-        return qsort(a, lambda x: x[len(x)//2])
+        return qsort(a, lambda x: x[0])
     def qsort_random_pivot(a):
         return qsort(a, random.choice)
     tim_sort = sorted
@@ -74,14 +74,14 @@ def compare_sort(sizes=[100, 200, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25
         # create list in ascending order
         mylist = list(range(size))
         # shuffles list if needed
-        # random.shuffle(mylist)
+        random.shuffle(mylist)
         # print(mylist)
         # print(mylist)
         result.append([
             len(mylist),
             time_search(tim_sort, mylist),
             time_search(qsort_fixed_pivot, mylist),
-            # time_search(qsort_random_pivot, mylist),
+            time_search(qsort_random_pivot, mylist),
         ])
     return result
     ###
@@ -155,16 +155,16 @@ def graph():
     sizes = [x[0] for x in results]
     ssort = [x[1] for x in results]
     qsort_fixed = [x[2] for x in results]
-    # qsort_random = [x[3] for x in results]
+    qsort_random = [x[3] for x in results]
     # print(l)
     # print(n)
     # print(t)
     plt.plot(sizes,ssort, label = 'timsort')
-    plt.plot(sizes,qsort_fixed, label = 'qsort_fixed')
-    # plt.plot(sizes,qsort_random, label = 'qsort_random')
+    # plt.plot(sizes,qsort_fixed, label = 'qsort_fixed')
+    plt.plot(sizes,qsort_random, label = 'qsort_random')
     plt.legend()
-    plt.title('timsort vs qsort_fixed')
-    plt.xlabel('size of input list, presorted')
+    plt.title('timsort vs qsort_random')
+    plt.xlabel('size of input list, shuffled')
     plt.ylabel('Time required to execute')
     plt.yscale('symlog')
     plt.xscale('log')
